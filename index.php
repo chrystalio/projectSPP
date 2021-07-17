@@ -1,17 +1,37 @@
-<?php require_once 'includes/header.php'; ?>
-<?php require_once 'includes/sidebar.php'; ?>
-<?php require_once 'includes/navbar.php'; ?>
+<?php
+session_start();
 
 
-                <!-- Begin Page Content -->
-                <div class="container-fluid">
+$page = @$_GET["page"];
 
-                    <!-- Page Heading -->
-                    <h1 class="h3 mb-4 text-gray-800">Blank Page</h1>
+$array = ["dashboard", 
+            "siswa", 
+            "pemasukan", 
+            "pengeluaran", 
+            "setor-spp"
+            ];
 
-                </div>
-                <!-- /.container-fluid -->
 
-            </div>
-            <!-- End of Main Content -->
-<?php require_once 'includes/footer.php'; ?>
+
+$title = (isset($page) && !empty($page) && in_array($page, $array) && !is_array($page) ? ucwords(str_replace("_", " ", $page)) : 'Login');
+require_once 'includes/header.php';
+
+if (in_array($page, $array) && !is_array($page) || isset($_SESSION['login'])) {
+    $page = ($page == "") ? "dashboard" : $page;
+    require_once 'includes/sidebar.php';
+    require_once "includes/navbar.php";
+    require_once "admin/$page.php";
+    require_once 'includes/footer.php'; 
+} else {
+    require_once "login.php";
+}
+?>
+
+
+
+
+
+
+
+
+
